@@ -22,7 +22,7 @@ function App() {
     const {
       data: { token },
     } = await axios.get(
-      'https://service-q0fiubji-1254432069.gz.apigw.tencentcs.com/release/getToken'
+      'https://service-q0fiubji-1254432069.gz.apigw.tencentcs.com/release/getToken',
     );
     setToken(token);
   };
@@ -39,9 +39,9 @@ function App() {
     setShowResultURL(false);
     const options = {
       method: 'POST',
-      headers: { 'Authorization': `token ${token}`},
+      headers: { Authorization: `token ${token}` },
       data: {
-        title: url
+        title: url,
       },
       url: `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues`,
     };
