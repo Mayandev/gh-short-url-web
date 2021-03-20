@@ -8,7 +8,7 @@ const DOMAIN = 'https://shorten.pro/';
 function App() {
   useEffect(() => {
     getToken();
-  });
+  }, []);
 
   const [showErrorMsg, setShowErrorMsg] = useState(false);
   const [isGenerate, setIsGenerate] = useState(false);
@@ -37,17 +37,19 @@ function App() {
     }
     setIsGenerate(true);
     setShowResultURL(false);
-
+    const options = {
+      method: 'POST',
+      headers: { 'Authorization': `token ${token}`},
+      data: {
+        title: url
+      },
+      url: `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues`,
+    };
     try {
       // send a request to generate surl in server
       const {
         data: { number },
-      } = await axios.post(
-        `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues?access_token=${token}`,
-        {
-          title: url,
-        }
-      );
+      } = await axios(options);
       console.log(number);
       setIsGenerate(false);
       setIssuesNumber(number);
